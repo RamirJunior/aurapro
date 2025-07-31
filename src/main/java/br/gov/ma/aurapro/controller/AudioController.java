@@ -1,5 +1,6 @@
 package br.gov.ma.aurapro.controller;
 
+import br.gov.ma.aurapro.dtos.AudioResponse;
 import br.gov.ma.aurapro.service.AudioService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,6 @@ public class AudioController {
             @RequestParam("audioFile") @NotNull MultipartFile audioFile,
             @RequestParam(defaultValue = "true") boolean summarize) {
 
-        // (Validações HTTP ficam aqui, se necessário – mas regra de negócio está no Service)
         if (audioFile.isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)

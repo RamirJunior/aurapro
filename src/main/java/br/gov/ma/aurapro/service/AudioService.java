@@ -1,5 +1,6 @@
 package br.gov.ma.aurapro.service;
 
+import br.gov.ma.aurapro.dtos.AudioResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.UUID;
 public class AudioService {
 
     private final TranscriptionService transcriptionService;
-    private final IASummarizerService iaService;
+    //private final IASummarizerService iaService;
 
     public AudioResponse process(@NotNull MultipartFile audioFile, boolean summarize){
 
@@ -25,7 +26,7 @@ public class AudioService {
 
             Optional<String> summary = Optional.empty();
             if (summarize){
-                summary = iaService.generateSummary(audioTranscription);
+      //          summary = iaService.generateSummary(audioTranscription);
             }
 
             return new AudioResponse(audioTranscription, summary.orElse(""));
@@ -36,7 +37,7 @@ public class AudioService {
 
     private boolean isSizeValid(MultipartFile file) {
         long maxSize = 10 * 1024 * 1024; // 10MB
-        return file.getSize() > maxSize;
+        return file.getSize() <= maxSize;
     }
 
     private File saveFileTemporarily(MultipartFile audioFile) {
