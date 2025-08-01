@@ -1,91 +1,114 @@
-const audioInput = document.getElementById('audioFile');
-const removeFileBtn = document.getElementById('removeFileBtn');
-const submitBtn = document.getElementById('submitBtn');
-const loadingDiv = document.getElementById('loading');
-const resultContainer = document.getElementById('resultContainer');
-const transcriptionText = document.getElementById('transcriptionText');
-const summarizeSwitch = document.getElementById('summarizeSwitch');
-const downloadLink = document.getElementById('downloadLink');
+
+const fileUpload = document.getElementById('file-upload');
+const fileInfo = document.getElementById('file-info');
+const fileNameSpan = document.getElementById('file-name');
+const uploadBtn = document.getElementById('upload-btn');
+const downloadBtn = document.getElementById('download-btn');
+const copyBtn = document.getElementById('copy-btn');
+const summaryBox = document.getElementById('summary-box');
 const toast = document.getElementById('toast');
+const fileError = document.getElementById('file-error');
+const loader = document.getElementById('loader');
+const summaryTitle = document.getElementById('summary-title');
 
-audioInput.addEventListener('change', () => {
-    const file = audioInput.files[0];
-    const allowedTypes = ['audio/mpeg', 'audio/wav', 'audio/x-m4a', 'audio/mp4'];
-    if (file && allowedTypes.includes(file.type)) {
-        submitBtn.disabled = false;
-        removeFileBtn.classList.remove('hidden');
-    } else {
-        alert("Por favor, selecione um arquivo de áudio válido (mp3, wav ou m4a).");
-        audioInput.value = "";
-        submitBtn.disabled = true;
-        removeFileBtn.classList.add('hidden');
-    }
+const acceptedTypes = ['audio/mpeg', 'audio/mp4', 'audio/x-m4a', 'audio/wav'];
+
+function updateFileDisplay(file) {
+  const isValid = acceptedTypes.includes(file.type);
+  fileInfo.style.display = 'flex';
+  fileNameSpan.textContent = file.name.length > 30 ? file.name.slice(0, 27) + '...' : file.name;
+  fileNameSpan.title = file.name;
+  fileInfo.className = 'file-info ' + (isValid ? 'valid' : 'invalid');
+  fileError.style.display = isValid ? 'none' : 'block';
+  fileError.textContent = isValid ? '' : 'Formatos aceitos: mp3, m4a, wav';
+  uploadBtn.disabled = !isValid;
+  if (!isValid) {
+    uploadBtn.innerText = 'Criar Resumo';
+  }
+}
+
+fileUpload.addEventListener('change', () => {
+  if (fileUpload.files.length > 0) {
+    updateFileDisplay(fileUpload.files[0]);
+  }
 });
 
-removeFileBtn.addEventListener('click', () => {
-    audioInput.value = "";
-    submitBtn.disabled = true;
-    removeFileBtn.classList.add('hidden');
-});
+function handleDrop(event) {
+  event.preventDefault();
+  const droppedFile = event.dataTransfer.files[0];
+  if (droppedFile) {
+    fileUpload.files = event.dataTransfer.files;
+    updateFileDisplay(droppedFile);
+  }
+}
 
-document.getElementById('audioForm').addEventListener('submit', function (e) {
-    e.preventDefault();
+function removeFile() {
+  fileUpload.value = '';
+  fileInfo.style.display = 'none';
+  fileError.style.display = 'none';
+  uploadBtn.disabled = true;
+  fileNameSpan.textContent = '';
+  fileInfo.className = 'file-info';
+  uploadBtn.innerText = 'Criar Resumo';
+}
 
-    const file = audioInput.files[0];
-    if (!file) return;
+uploadBtn.addEventListener('click', () => {
+  const file = fileUpload.files[0];
+  if (!file || !acceptedTypes.includes(file.type)) return;
 
-    const formData = new FormData();
-    formData.append('audioFile', file);
-    formData.append('summarize', summarizeSwitch.checked);
+  uploadBtn.disabled = true;
+  loader.style.display = 'inline-block';
+  summaryBox.innerText = '';
+  summaryTitle.innerText = `Processando: ${file.name}`;
+  downloadBtn.disabled = true;
+  copyBtn.disabled = true;
 
-    submitBtn.disabled = true;
-    audioInput.disabled = true;
-    loadingDiv.classList.remove('hidden');
-    resultContainer.classList.add('hidden');
-    transcriptionText.textContent = "";
+  const formData = new FormData();
+  formData.append('audioFile', file);
 
+  fetch('http://localhost:8080/aurapro/process', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
     setTimeout(() => {
-        fetch('http://localhost:8080/aurapro/process', {
-            method: 'POST',
-            body: formData
-        })
-        .then(res => res.json())
-        .then(data => {
-            transcriptionText.textContent = data.transcription || "Nenhuma transcrição retornada.";
-            resultContainer.classList.remove('hidden');
+      fileInfo.className = 'file-info processed';
+      uploadBtn.disabled = false;
+      uploadBtn.innerText = 'Refazer';
+      loader.style.display = 'none';
+      copyBtn.disabled = false;
+      downloadBtn.disabled = false;
 
-            const hasSummary = data.summary && data.summary.trim() !== "";
-            if (summarizeSwitch.checked && hasSummary && data.transcription.trim() !== "") {
-                const blob = new Blob([data.summary], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                downloadLink.href = url;
-                downloadLink.disabled = false;
-            } else {
-                downloadLink.disabled = true;
-            }
-        })
-        .catch(err => {
-            alert("Erro ao processar o áudio.");
-            console.error(err);
-        })
-        .finally(() => {
-            loadingDiv.classList.add('hidden');
-            submitBtn.disabled = false;
-            audioInput.disabled = false;
-        });
-    }, 5000); // Delay de simulação
+      summaryBox.innerText = data.summary;
+      summaryTitle.innerText = `Resumo do áudio: ${file.name}`;
+
+      downloadBtn.onclick = () => {
+        const blob = new Blob([data.transcription], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file.name.replace(/\.[^/.]+$/, '') + '_transcription.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      };
+    }, 6000); // Delay de 6 segundos
+  })
+  .catch(() => {
+    loader.style.display = 'none';
+    uploadBtn.disabled = false;
+    alert('Erro ao processar o áudio. Tente novamente.');
+  });
 });
 
-document.getElementById("copyTranscriptionBtn").addEventListener("click", () => {
-    const transcription = transcriptionText.innerText;
-    if (transcription.trim() !== "") {
-        navigator.clipboard.writeText(transcription).then(() => {
-            toast.classList.add("show");
-            setTimeout(() => {
-                toast.classList.remove("show");
-            }, 3000);
-        });
-    }
+copyBtn.addEventListener('click', () => {
+  const text = summaryBox.innerText.trim();
+  if (!text) return;
+
+  navigator.clipboard.writeText(text).then(() => {
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  });
 });
-
-

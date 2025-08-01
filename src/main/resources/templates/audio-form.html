@@ -1,66 +1,64 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Transcrição de Áudio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURAPRO - Resumo de Áudio</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <div class="container">
-    <!-- Coluna Lateral (Upload) -->
-    <div class="sidebar">
-        <form id="audioForm" method="post" enctype="multipart/form-data">
-            <!-- Upload -->
-            <div class="form-group file-group">
-                <label for="audioFile" class="file-label">Selecionar áudio</label>
-                <input type="file" id="audioFile" name="audioFile" accept=".mp3,.wav,.m4a" required>
+    <div class="left-panel" ondragover="event.preventDefault()" ondrop="handleDrop(event)">
+        <h2>AURAPRO</h2>
 
-                <button type="button" id="removeFileBtn" class="hidden">✖</button>
-            </div>
+        <label for="file-upload" class="upload-box" id="drop-zone">
+            <span class="material-icons">cloud_upload</span><br>
+            Arraste ou selecione um arquivo de áudio
+            <input type="file" id="file-upload" style="display: none;" />
+        </label>
 
-
-
-
-            <!-- Switch -->
-            <div class="form-group switch-group">
-                <label class="switch">
-                    <input type="checkbox" id="summarizeSwitch" name="summarize" checked>
-                    <span class="slider round"></span>
-                </label>
-                <span class="switch-label">Criar Resumo</span>
-            </div>
-
-            <!-- Botão enviar -->
-            <div class="form-group">
-                <button type="submit" id="submitBtn" disabled>Enviar Áudio</button>
-            </div>
-
-            <!-- Loading -->
-            <div id="loading" class="hidden loading-box">
-                <img src="/images/loading.gif" alt="Carregando...">
-                <span>Processando áudio...</span>
-            </div>
-        </form>
-    </div>
-
-    <!-- Coluna de resultado -->
-    <div class="content-area">
-        <div class="header">
-            <h2>Transcrição</h2>
-            <button id="downloadLink" disabled>Baixar Resumo</button>
+        <div id="file-info" class="file-info" style="display: none;">
+            <span class="material-icons">insert_drive_file</span>
+            <span id="file-name">audio_file_name</span>
+            <button class="remove-btn" onclick="removeFile()">
+                <span class="material-icons">close</span>
+            </button>
         </div>
 
-        <div id="resultContainer" class="hidden transcription-box">
-            <p id="transcriptionText">Aguardando transcrição...</p>
-        </div>
+        <div id="file-error" class="file-error"></div>
 
-        <button id="copyTranscriptionBtn" class="copy-btn">Copiar Transcrição</button>
+        <div class="bottom-btn">
+            <button id="upload-btn" class="upload-button" disabled>
+                Criar Resumo
+            </button>
+        </div>
     </div>
 
-    <!-- Toast -->
-    <div id="toast" class="toast">Texto copiado!</div>
+    <div class="right-panel">
+        <div class="title-row">
+            <div id="loader" class="loader" style="display: none;"></div>
+            <h3 id="summary-title">Resumo do áudio</h3>
+
+        </div>
+
+        <div class="summary-box" id="summary-box"></div>
+
+        <div class="button-row">
+            <button id="copy-btn" class="action-button copy-btn" disabled>
+                <span class="material-icons">content_copy</span>
+                Copiar Resumo
+            </button>
+            <button id="download-btn" class="action-button download-btn" disabled>
+                <span class="material-icons">download</span>
+                Baixar Transcrição em TXT
+            </button>
+        </div>
+    </div>
 </div>
 
+<div id="toast" class="toast">Texto do resumo copiado com sucesso</div>
 <script src="/js/script.js"></script>
 </body>
 </html>

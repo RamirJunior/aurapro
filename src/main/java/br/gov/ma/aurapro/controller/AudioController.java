@@ -26,8 +26,7 @@ public class AudioController {
 
     @PostMapping("/process")
     public ResponseEntity<AudioResponse> processAudio(
-            @RequestParam("audioFile") @NotNull MultipartFile audioFile,
-            @RequestParam(defaultValue = "true") boolean summarize) {
+            @RequestParam("audioFile") @NotNull MultipartFile audioFile) {
 
         if (audioFile.isEmpty()) {
             return ResponseEntity
@@ -35,7 +34,7 @@ public class AudioController {
                     .body(new AudioResponse("Arquivo de áudio ausente ou inválido", null));
         }
 
-        var response = service.process(audioFile, summarize);
+        var response = service.process(audioFile);
         return ResponseEntity.ok(response);
     }
 

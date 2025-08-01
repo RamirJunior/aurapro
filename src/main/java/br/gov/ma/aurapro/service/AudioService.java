@@ -18,18 +18,20 @@ public class AudioService {
     private final TranscriptionService transcriptionService;
     //private final IASummarizerService iaService;
 
-    public AudioResponse process(@NotNull MultipartFile audioFile, boolean summarize){
+    public AudioResponse process(@NotNull MultipartFile audioFile){
 
         if (isSizeValid(audioFile)) {
             File tempAudioFile = saveFileTemporarily(audioFile);
             String audioTranscription = transcriptionService.transcript(tempAudioFile);
 
-            Optional<String> summary = Optional.empty();
-            if (summarize){
-      //          summary = iaService.generateSummary(audioTranscription);
-            }
+            String summary = "There\n are many \nvariations of passages of Lorem " +
+                    "Ipsum\n available, \nbut the majority have\n suffered alteration in some " +
+                    "form,\n by\n injected\n humour, or \nrandomised\n words which don't " +
+                    "look\n even\n slightly\n believable. \nIf you \nare going to use a\n passage " +
+                    "of\n Lorem\n Ipsum, you\n need to be sure \nthere isn't \nanything " +
+                    "embarrassing\n hidden \nin the middle\n of text.";
 
-            return new AudioResponse(audioTranscription, summary.orElse("testestes"));
+            return new AudioResponse(audioTranscription, summary);
         } else {
             throw new RuntimeException("Arquivo de áudio maior que 10Mb.");
         }

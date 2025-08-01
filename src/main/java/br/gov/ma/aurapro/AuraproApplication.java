@@ -9,4 +9,5 @@ public class AuraproApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AuraproApplication.class, args);
 	}
+
 }
