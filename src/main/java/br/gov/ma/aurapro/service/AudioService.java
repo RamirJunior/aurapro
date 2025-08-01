@@ -29,7 +29,7 @@ public class AudioService {
       //          summary = iaService.generateSummary(audioTranscription);
             }
 
-            return new AudioResponse(audioTranscription, summary.orElse(""));
+            return new AudioResponse(audioTranscription, summary.orElse("testestes"));
         } else {
             throw new RuntimeException("Arquivo de áudio maior que 10Mb.");
         }

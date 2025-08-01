@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Transcrição de Áudio</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <!-- Coluna Lateral (Upload) -->
+    <div class="sidebar">
+        <form id="audioForm" method="post" enctype="multipart/form-data">
+            <!-- Upload -->
+            <div class="form-group file-group">
+                <label for="audioFile" class="file-label">Selecionar áudio</label>
+                <input type="file" id="audioFile" name="audioFile" accept=".mp3,.wav,.m4a" required>
+
+                <button type="button" id="removeFileBtn" class="hidden">✖</button>
+            </div>
+
+
+
+
+            <!-- Switch -->
+            <div class="form-group switch-group">
+                <label class="switch">
+                    <input type="checkbox" id="summarizeSwitch" name="summarize" checked>
+                    <span class="slider round"></span>
+                </label>
+                <span class="switch-label">Criar Resumo</span>
+            </div>
+
+            <!-- Botão enviar -->
+            <div class="form-group">
+                <button type="submit" id="submitBtn" disabled>Enviar Áudio</button>
+            </div>
+
+            <!-- Loading -->
+            <div id="loading" class="hidden loading-box">
+                <img src="/images/loading.gif" alt="Carregando...">
+                <span>Processando áudio...</span>
+            </div>
+        </form>
+    </div>
+
+    <!-- Coluna de resultado -->
+    <div class="content-area">
+        <div class="header">
+            <h2>Transcrição</h2>
+            <button id="downloadLink" disabled>Baixar Resumo</button>
+        </div>
+
+        <div id="resultContainer" class="hidden transcription-box">
+            <p id="transcriptionText">Aguardando transcrição...</p>
+        </div>
+
+        <button id="copyTranscriptionBtn" class="copy-btn">Copiar Transcrição</button>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Texto copiado!</div>
+</div>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

@@ -6,18 +6,23 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
-@RequestMapping("/aurapro/audio")
+@RequestMapping("/aurapro")
 public class AudioController {
 
     private final AudioService service;
+
+    @GetMapping("/pagina")
+    public String showForm(Model model) {
+        model.addAttribute("mensagem", "Envie seu áudio para transcrição:");
+        return "audio-form"; // Vai carregar templates/audio-form.html
+    }
 
     @PostMapping("/process")
     public ResponseEntity<AudioResponse> processAudio(
