@@ -1,55 +1,60 @@
-# AURAPRO – Assistente Unificado de Reuniões em Áudio da Procuradoria
+# iDox – Inteligência para Documentação, Organização e Extração de Informações
 
-**AURAPRO** é um sistema desenvolvido em **Spring Boot** com o objetivo de auxiliar a Procuradoria Geral do Estado do Maranhão (PGE-MA) na transcrição e resumo automático de áudios de reuniões institucionais.
+**iDox** é uma aplicação desenvolvida com **Spring Boot** e **Thymeleaf** com o objetivo de agilizar e simplificar o tratamento de **áudios institucionais**, gerando automaticamente **resumos objetivos** e **transcrições textuais**. A proposta é facilitar o registro, a organização e a recuperação de informações em ambientes públicos ou jurídicos, como na atuação da Procuradoria Geral do Estado do Maranhão (PGE-MA).
 
 ## Objetivo
 
-Transformar gravações de reuniões em **transcrições textuais** e **resumos objetivos**, facilitando o acompanhamento, registro e recuperação de informações discutidas internamente.
+Converter gravações de reuniões ou declarações orais em textos úteis e estruturados, permitindo:
+- Acompanhamento assíncrono de decisões
+- Registro fiel de conteúdos
+- Compartilhamento e arquivamento eficiente
 
 ## Tecnologias Utilizadas
 
-* Java 17+
-* Spring Boot
-* Maven
-* REST API
-* Thymeleaf (para interface web)
-* DTOs para entrada e saída
-* (IA local ou externa para transcrição e resumo – em desenvolvimento)
+- Java 17+
+- Spring Boot
+- Maven
+- REST API
+- Thymeleaf (interface web)
+- HTML, CSS, JS puro
+- DTOs para entrada e saída
+- Whisper/LLM (IA local ou externa – em evolução)
 
 ## Estrutura do Projeto
 
-* `br.gov.ma.aurapro.controller`: Camada de entrada (REST + Web)
-* `br.gov.ma.aurapro.service`: Regras de negócio (transcrição e resumo)
-* `br.gov.ma.aurapro.dto`: Objetos de transporte (Request e Response)
-* `br.gov.ma.aurapro.model`: Modelos internos (se aplicável)
+- `br.gov.ma.idox.controller`: Camada de controle (REST + Web)
+- `br.gov.ma.idox.service`: Regras de negócio (transcrição e resumo)
+- `br.gov.ma.idox.dto`: Objetos de transporte de dados (Request e Response)
+- `br.gov.ma.idox.model`: Modelos internos, se aplicável
 
-## Fluxo Básico da API
+## Fluxo Básico da Aplicação
 
-1. O usuário envia um áudio de até 5 minutos via endpoint REST.
-2. A aplicação processa o áudio com uma ferramenta de transcrição (em desenvolvimento).
-3. Gera a transcrição completa e um resumo textual.
-4. Retorna os dados em formato estruturado (JSON via DTO).
+1. O usuário envia um áudio via formulário (web) ou endpoint REST.
+2. A aplicação valida e processa o arquivo.
+3. Uma ferramenta de transcrição converte o áudio em texto.
+4. Um resumo automático é gerado a partir da transcrição.
+5. O sistema exibe o conteúdo e permite ações como copiar ou baixar.
 
-## Interface Web com Thymeleaf
+## Interface Web Responsiva
 
-Além da API, o AURAPRO disponibiliza uma **interface web responsiva** construída com **Thymeleaf**, HTML, CSS e JavaScript puro, permitindo que usuários interajam com a aplicação sem depender de ferramentas externas como Postman ou cURL.
+A aplicação oferece uma **interface moderna, amigável e adaptável** para uso direto em navegadores, sem necessidade de ferramentas externas.
 
-### Recursos da interface:
+### Funcionalidades:
 
-* Upload de áudios `.mp3`, `.m4a` e `.wav` com validação.
-* Visualização do resumo gerado diretamente na página.
-* Download da transcrição em `.txt`.
-* Copiar resumo para a área de transferência.
-* Animações de carregamento e feedback visual do estado do processo.
-* Suporte a dispositivos móveis com layout adaptado.
+- Upload de arquivos `.mp3`, `.m4a`, `.wav` com validação de tipo
+- Visualização imediata do resumo gerado
+- Download da transcrição em `.txt`
+- Botão para copiar o resumo para a área de transferência
+- Animação de carregamento estilo Nubank
+- Layout otimizado para **desktop e mobile**
 
 ## Escopo Inicial
 
-* Processamento de áudios curtos (≤ 5min).
-* API simples com resposta em JSON.
-* Interface web integrada com Thymeleaf.
-* Projeto demonstrativo para validação da ideia dentro da PGE-MA.
+- Áudios de até 5 minutos
+- Geração de transcrição e resumo em português
+- Integração com modelo de IA local ou remoto
+- Projeto demonstrativo para uso na PGE-MA
 
 ---
 
-**Aviso:** Projeto em desenvolvimento inicial. Suporte a áudios longos, integração com sistemas internos e melhorias de performance serão avaliados nas próximas etapas.
+⚠️ **Aviso:** O iDox ainda está em fase inicial de desenvolvimento. Funcionalidades como suporte a múltiplos falantes, organização por temas e integração com bancos de dados serão avaliadas em etapas futuras.

@@ -66,7 +66,7 @@ uploadBtn.addEventListener('click', () => {
   const formData = new FormData();
   formData.append('audioFile', file);
 
-  fetch('http://localhost:8080/aurapro/process', {
+  fetch('http://localhost:8080/idox/process', {
     method: 'POST',
     body: formData
   })

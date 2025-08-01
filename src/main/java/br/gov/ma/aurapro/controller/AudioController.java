@@ -13,15 +13,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/aurapro")
+@RequestMapping("/idox")
 public class AudioController {
 
     private final AudioService service;
 
-    @GetMapping("/pagina")
+    @GetMapping("/index")
     public String showForm(Model model) {
         model.addAttribute("mensagem", "Envie seu áudio para transcrição:");
-        return "audio-form"; // Vai carregar templates/audio-form.html
+        return "index"; // Vai carregar templates/index.html
     }
 
     @PostMapping("/process")
