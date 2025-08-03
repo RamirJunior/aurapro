@@ -11,7 +11,7 @@ const fileError = document.getElementById('file-error');
 const loader = document.getElementById('loader');
 const summaryTitle = document.getElementById('summary-title');
 
-const acceptedTypes = ['audio/mpeg', 'audio/mp4', 'audio/x-m4a', 'audio/wav'];
+const acceptedTypes = ['audio/mp3', 'audio/mpeg', 'audio/wav', 'audio/x-wav', 'audio/mp4', 'audio/aac', 'audio/x-m4a', 'audio/ogg'];
 
 function updateFileDisplay(file) {
   const isValid = acceptedTypes.includes(file.type);
@@ -57,6 +57,7 @@ uploadBtn.addEventListener('click', () => {
   if (!file || !acceptedTypes.includes(file.type)) return;
 
   uploadBtn.disabled = true;
+  uploadBtn.textContent = "Processando áudio...";
   loader.style.display = 'inline-block';
   summaryBox.innerText = '';
   summaryTitle.innerText = `Processando: ${file.name}`;
@@ -111,4 +112,19 @@ copyBtn.addEventListener('click', () => {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
   });
+});
+
+
+function toggleAboutCard() {
+  const card = document.getElementById('about-card');
+  card.style.display = card.style.display === 'block' ? 'none' : 'block';
+}
+
+// Fecha o card se clicar fora dele
+document.addEventListener('click', function (event) {
+  const card = document.getElementById('about-card');
+  const button = document.querySelector('.about-button');
+  if (!card.contains(event.target) && !button.contains(event.target)) {
+    card.style.display = 'none';
+  }
 });

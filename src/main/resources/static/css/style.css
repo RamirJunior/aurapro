@@ -1,6 +1,6 @@
 body {
   font-family: 'Montserrat', sans-serif;
-  background: #f2f2f2;
+  background: #f4f4f4;
   margin: 0;
   padding: 0;
   display: flex;
@@ -338,5 +338,56 @@ body {
 
     .logo-img {
         max-height: 48px;
+        pointer-events: none;
+        user-select: none;
       }
 }
+
+.about-button-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.about-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #2d3748;
+  font-size: 20px;
+  padding: 6px;
+  transition: background-color 0.2s;
+  border-radius: 50%;
+}
+
+.about-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.about-card {
+  background-color: #2d3748;
+  color: white;
+  display: none;
+  position: absolute;
+  bottom: 40px;
+  right: 0;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  font-size: 13px;
+  width: 220px;
+  z-index: 20;
+}
+
+.about-card a {
+  color: #ffc400;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.about-card a:hover {
+  text-decoration: underline;
+}
+
