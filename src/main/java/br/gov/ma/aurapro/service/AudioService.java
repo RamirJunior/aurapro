@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,7 +17,7 @@ public class AudioService {
     private final TranscriptionService transcriptionService;
     //private final IASummarizerService iaService;
 
-    public AudioResponse process(@NotNull MultipartFile audioFile){
+    public AudioResponse process(@NotNull MultipartFile audioFile) {
 
         if (isSizeValid(audioFile)) {
             File tempAudioFile = saveFileTemporarily(audioFile);
