@@ -7,6 +7,10 @@ body {
   height: 100vh;
   align-items: center;
   justify-content: center;
+    background-image: url('/images/bg2.webp'); /* caminho do seu arquivo .webp */
+    background-repeat: repeat;
+    background-size: 200px 200px /* ou '50px 50px' se quiser forçar o tamanho */
+    background-attachment: fixed; /* opcional: mantém o fundo fixo ao rolar */
 }
 
 .container {
@@ -14,13 +18,14 @@ body {
   width: 900px;
   height: 500px;
   background: white;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
   border-radius: 12px;
   overflow: hidden;
+  border: solid 1px #f8fbca;
 }
 
 .left-panel {
-  background-color: #2d3748;
+background: #272b00;
   color: white;
   width: 35%;
   padding: 24px;
@@ -35,9 +40,9 @@ body {
 }
 
 .upload-box {
-  background-color: #4a5568;
+  background-color: #3B4216;
   border: 2px dashed #718096;
-  border-radius: 8px;
+  border-radius: 16px;
   text-align: center;
   padding: 40px 10px;
   cursor: pointer;
@@ -46,7 +51,7 @@ body {
 }
 
 .upload-box:hover {
-  background-color: #5a6478;
+  background-color: #54582f;
 }
 
 .material-icons {
@@ -55,6 +60,7 @@ body {
 }
 
 .file-info {
+background-color: #f8fbca;
   padding: 10px;
   border-radius: 6px;
   display: flex;
@@ -67,15 +73,15 @@ body {
 }
 
 .file-info.valid {
-  background-color: #38a169;
+  background-color: #13b0a5;
 }
 
 .file-info.invalid {
-  background-color: #e53e3e;
+  background-color: #e84c3d;
 }
 
 .file-info.processed {
-  background-color: #3182ce;
+  background-color: #003050;
 }
 
 #file-name {
@@ -93,7 +99,7 @@ body {
 }
 
 .file-error {
-  color: #f56565;
+  color: #f4cf2a;
   font-size: 13px;
   display: none;
 }
@@ -108,18 +114,19 @@ body {
   font-size: 16px;
   border: none;
   border-radius: 8px;
-  background-color: #4299e1;
-  color: white;
+  background-color: #f8de7e;
+  color: #54582f;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .upload-button:disabled {
-  background-color: #718096;
+  background-color: #86895d;
   cursor: not-allowed;
 }
 
 .right-panel {
+background-color: #bec092;
   padding: 24px;
   width: 65%;
   box-sizing: border-box;
@@ -164,7 +171,7 @@ body {
 }
 
 .action-button:disabled {
-  background-color: #a0aec0;
+  background-color: #86895d;
   cursor: not-allowed;
 }
 
@@ -186,12 +193,12 @@ body {
 }
 
 .loader {
-  border: 3px solid #ccc;
-  border-top: 3px solid #2b6cb0;
+  border: 3px solid transparent;
+  border-top: 3px solid #3c3c3c;
   border-radius: 50%;
   width: 16px;
   height: 16px;
-  animation: spin 1s linear infinite;
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
@@ -354,7 +361,7 @@ body {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  color: #2d3748;
+  color: #bec092;
   font-size: 20px;
   padding: 6px;
   transition: background-color 0.2s;
@@ -362,27 +369,27 @@ body {
 }
 
 .about-button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.09);
 }
 
 .about-card {
-  background-color: #2d3748;
-  color: white;
+  background-color: #f8fbca;
+  color: #010101;
   display: none;
   position: absolute;
   bottom: 40px;
   right: 0;
-  border: 1px solid #cbd5e0;
   border-radius: 8px;
   padding: 16px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
   font-size: 13px;
   width: 220px;
   z-index: 20;
 }
 
 .about-card a {
-  color: #ffc400;
+  color: #272b00;
+  font-weight: 600;
   text-decoration: none;
   word-break: break-word;
 }
